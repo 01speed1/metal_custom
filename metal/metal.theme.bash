@@ -43,9 +43,9 @@ GIT_THEME_PROMPT_SUFFIX=""
 icon_start="┌"
 icon_user="🥑 "
 icon_host=" "
-icon_directory=" - 🧱 "
 icon_branch="👾"
 icon_end="└🚀-> "
+NODE_ICON="⬢"
 
 # extra spaces ensure legiblity in prompt
 
@@ -73,7 +73,8 @@ function winname {
 
 # Displays the current prompt
 function prompt_command() {
-  PS1="\n${icon_start}$(virtualenv_prompt)${icon_user}${bold_cyan}\W${normal} \$([[ -n \$(git branch 2> /dev/null) ]] && echo \"on ${icon_branch} \")${white}$(scm_prompt_info)${normal}\n${icon_end}"
+  local node_version=$(node -v)
+  PS1="\n${icon_start}$(virtualenv_prompt)${icon_user}${bold_green}${NODE_ICON} ${node_version}${normal} ${bold_cyan}\W${normal}\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on ${icon_branch}  \")${white}$(scm_prompt_info) \n${icon_end}"
   PS2="${icon_end}"
 }
 
