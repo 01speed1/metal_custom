@@ -46,6 +46,7 @@ icon_host=" "
 icon_branch="👾"
 icon_end="└🚀-> "
 NODE_ICON="⬢"
+aws="🌥️"
 
 # extra spaces ensure legiblity in prompt
 
@@ -71,10 +72,17 @@ function winname {
 
 # PROMPT OUTPUT ===============================================================
 
+function get_aws_profile {
+  local default_key_id=$(awk -v RS='' '/\[default\]/ {print}' ~/.aws/credentials | grep 'aws_access_key_id' | cut -d '=' -f 2 | tr -d '[:space:]')
+  local profiles=$(awk -v RS='' -v key_id="$default_key_id" '$0 ~ key_id {print}' ~/.aws/credentials | grep -o '\[.*\]' | grep -v 'default' | tr -d '[]')
+  printf "\033[38;2;255;165;0m${aws} ${profiles}\033[0m"
+}
+
 # Displays the current prompt
 function prompt_command() {
   local node_version=$(node -v)
-  PS1="\n${icon_start}$(virtualenv_prompt)${icon_user}${bold_green}${NODE_ICON} ${node_version}${normal} ${bold_cyan}\W${normal}\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on ${icon_branch}  \")${white}$(scm_prompt_info) \n${icon_end}"
+
+  PS1="\n${icon_start}$(virtualenv_prompt)${icon_user}$(get_aws_profile) ${bold_green}${NODE_ICON} ${node_version}${normal} ${bold_cyan}\W${normal}\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on ${icon_branch}  \")${white}$(scm_prompt_info) \n${icon_end}"
   PS2="${icon_end}"
 }
 
