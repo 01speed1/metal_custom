@@ -48,7 +48,7 @@ icon_end="└🚀-> "
 NODE_ICON="⬢"
 aws="🌥️"
 
-# extra spaces ensure legiblity in prompt
+# extra spaces ensure legibility in prompt
 
 # FUNCTIONS ===================================================================
 
